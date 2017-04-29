@@ -12,7 +12,7 @@ public class Tester {
 		s.addProduct("apple", "store1", 1, 1, 5.0);
 		s.addProduct("apple", "store2", 1, 1, 4.0);
 		s.addProduct("apple", "store3", 1, 1, 6.0);
-		s.addProduct("apple", "store4", 1, 1, 7.0);
+		s.addProduct("apple", "store4", 1, 1, 7.0);      
 		
 		s.addProduct("water", "store1", 1, 1, 3.0);
 		s.addProduct("water", "store2", 1, 1, 3.0);
@@ -28,10 +28,19 @@ public class Tester {
 		s.addProduct("rice", "store3", 1, 1, 4.0);
 		s.addProduct("rice", "store4", 1, 1, 7.0);
 		
-		ArrayList<Plan> plans = s.getOneStorePlan();
+		ArrayList<Plan> plan = s.getOneStorePlan();
+		for(Plan p : plan)
+		{
+			System.out.println(p.getTotalPrice());
+		}
+		
+		System.out.println("-----------------------------");
+		
+		ArrayList<Plan> plans = s.getMultiplyStorePlan(2);
 		for(Plan p : plans)
 		{
 			System.out.println(p.getTotalPrice());
 		}
+		
 	}
 }
