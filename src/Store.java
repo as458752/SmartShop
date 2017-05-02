@@ -1,33 +1,33 @@
 /**
  * @author Jing
  * 
- * This class encapsulate the name, longitude and latitude of a store
+ *         This class encapsulate the name, longitude and latitude of a store
  *
  */
 public class Store {
 	private String name;
-	private float longitude;
-	private float latitude;
-	
-	
-	public Store(String name, float longitude, float latitude) {
+	private Location loc;
+
+	public Store(String name, double longitude, double latitude) {
 		super();
 		this.name = name;
-		this.longitude = longitude;
-		this.latitude = latitude;
+		this.loc = new Location(longitude, latitude);
 	}
-	
-	
+
+	public Store(String name, Location loc) {
+		super();
+		this.name = name;
+		this.loc = loc;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Float.floatToIntBits(latitude);
-		result = prime * result + Float.floatToIntBits(longitude);
+		result = prime * result + ((loc == null) ? 0 : loc.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -38,9 +38,10 @@ public class Store {
 		if (getClass() != obj.getClass())
 			return false;
 		Store other = (Store) obj;
-		if (Float.floatToIntBits(latitude) != Float.floatToIntBits(other.latitude))
-			return false;
-		if (Float.floatToIntBits(longitude) != Float.floatToIntBits(other.longitude))
+		if (loc == null) {
+			if (other.loc != null)
+				return false;
+		} else if (!loc.equals(other.loc))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -50,23 +51,24 @@ public class Store {
 		return true;
 	}
 
-
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public float getLatitude() {
-		return latitude;
+
+	public Location getLoc() {
+		return loc;
 	}
-	public void setLatitude(float latitude) {
-		this.latitude = latitude;
+
+	public void setLoc(Location loc) {
+		this.loc = loc;
 	}
-	public float getLongitude() {
-		return longitude;
-	}
-	public void setLongitude(float longitude) {
-		this.longitude = longitude;
+	
+	public double getDistance(Store s2)
+	{
+		return this.loc.distanceTo(s2.getLoc());
 	}
 }

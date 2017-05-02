@@ -2,15 +2,23 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author Jing
+ *
+ */
 public class CombinedStore {
 	private ArrayList<Store> stores;
 	private ArrayList<Map<String, Double>> items;
 	private Set<String> productList;
+	private Location currentLoc;
+	private double timeCostFactor = 0.0;
 	
-	public CombinedStore(Set<String> productList) {
+	public CombinedStore(Set<String> productList, Location currentLoc,double tcf) {
 		this.productList = productList;
 		stores = new ArrayList<Store>();
 		items = new ArrayList<Map<String, Double>>();
+		this.currentLoc = currentLoc;
+		this.timeCostFactor = tcf;
 	}
 	
 	public void addStoreItem(Store s,Map<String, Double> m)
@@ -21,7 +29,7 @@ public class CombinedStore {
 	
 	public Plan organize()
 	{
-		Plan p= new Plan();
+		Plan p= new Plan(this.currentLoc, this.timeCostFactor);
 		int size = stores.size();
 		for(String s: productList)
 		{
@@ -32,12 +40,7 @@ public class CombinedStore {
 				Map<String, Double> pMap = items.get(i);
 				if(pMap.containsKey(s))
 				{
-					if(index == -1)
-					{
-						lowest = pMap.get(s);
-						index = 0;
-					}
-					else if(pMap.get(s) < lowest)
+					if((index == -1) || (pMap.get(s) < lowest))
 					{
 						lowest = pMap.get(s);
 						index = i;

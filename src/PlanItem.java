@@ -14,7 +14,7 @@ public class PlanItem {
 		this.store = store;
 		this.product = product;
 		this.price = price;
-	}
+	} 
 
 	public Store getStore() {
 		return store;
