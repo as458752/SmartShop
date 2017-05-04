@@ -91,7 +91,25 @@ public class Plan implements Comparable<Plan> {
 	public void computeShortestPath() {
 		Path shortest = new Path();
 		List<Store> listStores = new ArrayList<Store>(this.stores);
-		permute(listStores, 0, shortest);
+		List<List<Integer>> listP = new ArrayList<List<Integer>>();
+		List<Integer> list = new ArrayList<Integer>();
+		for(int i=0; i<this.stores.size(); i++)	list.add(i);
+		permute(list, 0, listP);
+		double disO = 0.0;
+		List<Integer> listS = null; 
+		for(List<Integer> l:listP)
+		{
+			double disN = GetTotalDistance(l,listStores);
+			if(disN < disO || listS == null) 
+			{
+				disO = disN;
+				listS = l;
+			}
+		}
+		shortest.setDis(disO);
+		ArrayList<Store> shortStore = new ArrayList<Store>();
+		for(Integer i : listS)	shortStore.add(listStores.get(i));
+		shortest.setStores(shortStore);
 		this.shortestPath = shortest;
 	}
 
@@ -99,27 +117,23 @@ public class Plan implements Comparable<Plan> {
 		return this.shortestPath;
 	}
 
-	private void permute(List<Store> arr, int k, Path shortest) {
+	private static void permute(List<Integer> arr, int k, List<List<Integer>> allPermutation) {
 		for (int i = k; i < arr.size(); i++) {
 			Collections.swap(arr, i, k);
-			permute(arr, k + 1, shortest);
+			permute(arr, k + 1, allPermutation);
 			Collections.swap(arr, k, i);
 		}
 		if (k == arr.size() - 1) {
-			double dis = GetTotalDistance(arr);
-			if (shortest.getStores() == null)
-				shortest.setPath(arr, dis);
-			else if (dis < shortest.getDis())
-				shortest.setPath(arr, dis);
+			allPermutation.add(new ArrayList<Integer>(arr));
 		}
 	}
 
-	private double GetTotalDistance(List<Store> arr) {
-		double dis = this.currentLoc.distanceTo(arr.get(0).getLoc());
+	private double GetTotalDistance(List<Integer> arr, List<Store> listS) {
+		double dis = this.currentLoc.distanceTo(listS.get(arr.get(0)).getLoc());
 		for (int i = 1; i < arr.size(); i++) {
-			dis += arr.get(i - 1).getLoc().distanceTo(arr.get(i).getLoc());
+			dis += listS.get(arr.get(i-1)).getLoc().distanceTo(listS.get(arr.get(i)).getLoc());
 		}
-		dis += arr.get(arr.size() - 1).getLoc().distanceTo(this.currentLoc);
+		dis += listS.get(arr.get(arr.size() - 1)).getLoc().distanceTo(this.currentLoc);
 		return dis;
 	}
 
