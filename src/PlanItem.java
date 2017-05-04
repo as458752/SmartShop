@@ -4,10 +4,11 @@
  *
  *	This class describes where to buy a specified item, including the product name, store and the price 
  */
-public class PlanItem {
+public class PlanItem implements Comparable<PlanItem>{
 	private Store store;
 	private String product;
 	private double price;
+	private int order;   //for comparing and sort
 
 	public PlanItem(Store store, String product, double price) {
 		super();
@@ -39,5 +40,18 @@ public class PlanItem {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	
+	public int getOrder() {
+		return order;
+	}
 
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
+	public int compareTo(PlanItem comparePlanItem)
+	{
+		int compareOrder = comparePlanItem.getOrder();
+		return this.order - compareOrder;
+	}
 }

@@ -29,26 +29,24 @@ public class Tester {
 		s.addProduct("rice", "store4", 1.04, 1.04, 7.0);
 		
 		
-		ArrayList<Plan> planss = s.getSortedPlans(2);
+		ArrayList<Plan> planss = s.getSortedPlans(3);
 		for(Plan p : planss)
 		{
-			System.out.println(p.getTotalPrice());
-			System.out.println(p.getTotalDistance());
-			p.organize();
-			System.out.println(p.getTotalCost());
+			System.out.println(p.toString());
 			System.out.println("***********************");
 		}
 		
-		System.out.println("-----------------------------");
 		
-		ArrayList<Plan> plansss = s.changeTimeCostFactor(0.5);
+		System.out.println("----------------------------------------");
+		
+		Shopping fromSession = s;
+		
+		ArrayList<Plan> plansss = fromSession.changeTimeCostFactor(0.5);
 		for(Plan p : plansss)
 		{
-			System.out.println(p.getTotalPrice());
-			System.out.println(p.getTotalDistance());
-			p.organize();
-			System.out.println(p.getTotalCost());
+			System.out.println(p.toString());
 			System.out.println("***********************");
 		}
+		
 	}
 }

@@ -56,9 +56,13 @@ public class Shopping {
 		else
 		{
 			ArrayList<Plan> plans = getOneStorePlan();
+			if(plans == null) levelOfCalculation++;
 			for(int i=2; i<=levelOfCalculation; i++)
 			{
-				plans.addAll(getMultipleStorePlan(i));
+				if(i> numOfStores()) break;
+				ArrayList<Plan> plan = getMultipleStorePlan(i);
+				plans.addAll(plan);
+				if(plan == null) levelOfCalculation++;
 			}
 			Collections.sort(plans);
 			this.previousPlans = plans;
@@ -101,7 +105,7 @@ public class Shopping {
 			if(p!=null)
 			{
 				p.organize();
-				plans.add(p);
+				if(p.getShortestPath().getStores().size()== i) plans.add(p);
 			}
 		}
 		return plans;
