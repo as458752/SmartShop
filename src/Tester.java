@@ -44,6 +44,10 @@ public class Tester {
 		ArrayList<Plan> plansss = fromSession.changeTimeCostFactor(0.5);
 		for(Plan p : plansss)
 		{
+			for(String str: p.getPlan())
+			{
+				System.out.println(str);
+			}
 			System.out.println(p.toString());
 			System.out.println("***********************");
 		}

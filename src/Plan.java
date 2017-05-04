@@ -144,4 +144,23 @@ public class Plan implements Comparable<Plan> {
 		}
 		return output;
 	}
+	
+	public ArrayList<String> getPlan()
+	{
+		ArrayList<String> strPlan = new ArrayList<String>();
+		String eachStore = "";
+		String storeName = "";
+		for(PlanItem pi: this.planItems)
+		{
+			if(!pi.getStore().getName().equals(storeName))
+			{
+				if(!eachStore.equals(""))	strPlan.add(eachStore);
+				storeName = pi.getStore().getName();
+				eachStore = storeName;
+			}
+			eachStore += "," + pi.getProduct() + "," + pi.getPrice();
+		}
+		if(!eachStore.equals(""))	strPlan.add(eachStore);
+		return strPlan;
+	}
 }
